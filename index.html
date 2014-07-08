@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>To do list</title>
+		 <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		 <link href="./styles.css" rel="stylesheet">
+	</head>
+	<body>
+		<div>
+			<button class="btn btn-primary btn-lg" id="add-task" data-toggle="modal" data-target="#form-modal">
+  				Add new task
+			</button>
+			<button class="btn btn-primary btn-lg" id="settings" data-toggle="modal" data-target="#settings-modal">
+  				Setting
+			</button>
+		</div>
+
+		<div class="modal fade" id="form-modal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title">Add task for your to do list</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		        	<label>Title: <input type="text" name="taskTitle" id="title-box"></label>
+		        	<label>Deadline: <input type="date" name="taskDeadline" id="deadline-box"></label>
+		        	<label>Description: <input type="text" name="taskDescription" id="description-box"></label>
+		        	<label>Starred: <input type="checkbox" name="taskStarred" id="starred-box"></label>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="submit-task">Add task</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<div class="modal fade" id="settings-modal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title">Your personal settings</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		        	<label>Username: <input type="text" name="username" id="username-box"></label>
+		        	<label>Avatar: <input type="text" name="avatar" id="avatar-box"></label>
+		        	<label>Background color: <input type="text" name="bakcground" id="background-box"></label>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" id="submit-user">Submit changes</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<div class="container">
+		<div class="row">
+			<div class="col-lg-10">
+				<table class="table task-table">
+					<thead>
+						<th class="col-lg-2">Task</th>
+						<th class="col-lg-1">Deadline</th>
+						<th class="col-lg-3">Description</th>
+						<th class="col-lg-1">Starred</th>
+					</thead>
+					<tbody id="task-container">
+					</tbody>
+				</table>
+			</div>
+			<div id="user-container" class="col-lg-2">
+			</div>
+			</div>
+		</div>
+			
+			
+		</div>
+	    <script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src='bower_components/handlebars/handlebars.min.js'></script>
+		<script type="text/x-handlebars-template" id="task-row-unstarred">
+			<tr dragable="true" data-taskTitle="{{title}}">
+				<td>{{title}}</td>
+				<td>{{deadline}}</td>
+				<td>{{description}}</td>
+				<td><input type="checkbox" class="starrer"></td>
+			</tr>
+		</script>
+		<script type="text/x-handlebars-template" id="task-row-starred">
+			<tr  dragable="true"  data-taskTitle="{{title}}" class="starred">
+				<td>{{title}}</td>
+				<td>{{deadline}}</td>
+				<td>{{description}}</td>
+				<td><input type="checkbox" checked="{{starred}}" class="starrer"></td>
+			</tr>
+		</script>
+		<script type="text/x-handlebars-template" id="user-template">
+			<div class="col-lg-3" id="personal-info" style="background-color:{{background}}">
+				<img src="{{avatar}}" class="avatar">
+				<h3>Welcome, {{username}}</h3>
+			</div>
+		</script>
+		<script>
+			function allowDrop(ev) {
+			    ev.preventDefault();
+			}
+
+			function drag(ev) {
+			    ev.dataTransfer.setData("Text", ev.target.id);
+			}
+
+			function drop(ev) {
+			    ev.preventDefault();
+			    var data = ev.dataTransfer.getData("Text");
+			    ev.target.appendChild(document.getElementById(data));
+			}
+		</script>
+	    <script src="./app.js"></script>
+	</body>
+</html>
