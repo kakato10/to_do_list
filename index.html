@@ -5,7 +5,7 @@
 		 <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		 <link href="./styles.css" rel="stylesheet">
 	</head>
-	<body>
+	<body id="body">
 		<div>
 			<button class="btn btn-primary btn-lg" id="add-task" data-toggle="modal" data-target="#form-modal">
   				Add new task
@@ -92,7 +92,7 @@
 			</tr>
 		</script>
 		<script type="text/x-handlebars-template" id="task-row-starred">
-			<tr  dragable="true"  data-taskTitle="{{title}}" class="starred">
+			<tr  id="{{id}}" dragable="true"  data-taskTitle="{{title}}" class="starred">
 				<td>{{title}}</td>
 				<td>{{deadline}}</td>
 				<td>{{description}}</td>
@@ -100,26 +100,12 @@
 			</tr>
 		</script>
 		<script type="text/x-handlebars-template" id="user-template">
-			<div class="col-lg-3" id="personal-info" style="background-color:{{background}}">
+			<div class="col-lg-3" id="personal-info">
 				<img src="{{avatar}}" class="avatar">
 				<h3>Welcome, {{username}}</h3>
 			</div>
 		</script>
-		<script>
-			function allowDrop(ev) {
-			    ev.preventDefault();
-			}
-
-			function drag(ev) {
-			    ev.dataTransfer.setData("Text", ev.target.id);
-			}
-
-			function drop(ev) {
-			    ev.preventDefault();
-			    var data = ev.dataTransfer.getData("Text");
-			    ev.target.appendChild(document.getElementById(data));
-			}
-		</script>
+		<script src="./drag_n_drop.js"></script>
 	    <script src="./app.js"></script>
 	</body>
 </html>

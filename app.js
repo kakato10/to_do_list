@@ -1,7 +1,6 @@
 'use strict';
 var generateToDoList = function(){
   var keys = Object.keys(localStorage);
-  console.log(localStorage[keys[0]]);
   var allTableRows = "";
   keys.forEach(function(key){
     if(key!=="user") {
@@ -10,6 +9,14 @@ var generateToDoList = function(){
   });
   $("#task-container").append(allTableRows);
 };
+
+var generateId = (function() {
+  var count = 0;
+  return function() {
+    count = count + 1;
+    return count;
+  }
+} () );
 
 var getTask = function(title) {
   return JSON.parse(localStorage[title]);
@@ -21,7 +28,7 @@ var updateTask = function(task) {
 
 var generateTaskRow = function(task){
   var taksRowSource;
-  console.log(task.starred);
+  task.id = generateId();
   if(task.starred === true) {
     taksRowSource = $("#task-row-starred").html();
   } else {
@@ -70,16 +77,13 @@ var loadUser = function() {
   var userDivSource = $("#user-template").html();
   var userDivTemplate = Handlebars.compile(userDivSource);
   $("#user-container").empty();
-  console.log(userDivTemplate(JSON.parse(localStorage.user)));
   $("#user-container").append(userDivTemplate(JSON.parse(localStorage.user)));
+  $("#body").css("background-color", JSON.parse(localStorage.user).background);
 };
 
 $(document).ready(function(){
   generateToDoList();
   loadUser();
-  $("#add-task").on("click", function(){
-    $(this.data("target")).modal("show");
-  });
 
   $(document).on("click", ".starrer", function() {
     var title = $(this).parent().parent().attr("data-taskTitle");
@@ -94,8 +98,6 @@ $(document).ready(function(){
   });
 
   $("#submit-user").on("click", function(){
-    alert("lqlql");
-    var user = getUsersInfo();
     if (user === false) {
       alert("Please enter correct values in the fields!");
     } else {
@@ -104,4 +106,5 @@ $(document).ready(function(){
     loadUser();
   });
 
+  $(".task-table").tableDnD();
 });
